@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Stock Quotes</title>
+<!-- INCLUDE REQUIRED THIRD PARTY LIBRARY JAVASCRIPT AND CSS -->
+<script type="text/javascript" src="js/angular.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+
+<!-- INCLUDE APPLICATION SPECIFIC CSS AND JAVASCRIPT -->
+<script type="text/javascript" src="js/app/app.js"></script>
+<script type="text/javascript" src="js/app/stockController.js"></script>
+<script type="text/javascript" src="js/app/endPoints.js"></script>
+
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+	<div class="navbar">
+		<div class="navbar-inner">
+			<a class="brand" href="#">Stock Quotes</a>
+		</div>
+	</div>
+	<div ng-app="StockApp" ng-controller="stockController" ng-init="init()">
+		<div class="span12"
+			style="border: 2px #eee solid; padding: 10px; border-radius: 10px;">
+			<form class="form-horizontal">
+				<div class=span4>
+					<fieldset>
+						<div class="control-group">
+							<label class="control-label">First Name:</label>
+							<div class="controls">
+								<input type="text" class="input-xlarge" ng-model="user.firstName" required>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Last Name:</label>
+							<div class="controls">
+								<input type="text" class="input-xlarge" ng-model="user.lastName" required>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Email:</label>
+							<div class="controls">
+								<input type="email" class="input-xlarge" ng-model="user.email" required>
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<div class="span4">
+					<fieldset>
+						<div class="control-group">
+							<label class="control-label" for="multiSelect">Companies</label>
+							<div class="controls">
+								<select multiple="multiple" size="6" ng-multiple="true"
+									ng-model="selectedCompanies"
+									ng-options="company.name for company  in companies">
+								</select>
+							</div>
+						</div>
+					</fieldset>
+				</div>
+				<div class="span12 text-center">
+					<button type="submit" class="btn btn-primary"
+						ng-click="search(selectedCompanies)">Search</button>
+					<button class="btn" ng-click="clear()">Clear</button>
+				</div>
+			</form>
+		</div>
+		<div class="span12 msg" ng-show="showMessage">Stock Quotes for:
+			{{user.firstName}}&nbsp{{user.lastName}} ({{user.email}})</div>
+		<div class="navbar span12" style="margin-top: 40px;">
+			<div class="navbar-inner">
+				<ul class="nav" style="width: 100%;">
+					<li class="text-center list">Symbol</li>
+					<li class="divider-vertical"></li>
+					<li class="text-center list">Exchange</li>
+					<li class="divider-vertical"></li>
+					<li class="text-center list">Last Price</li>
+					<li class="divider-vertical"></li>
+					<li class="text-center list">Change</li>
+					<li class="divider-vertical"></li>
+					<li class="text-center list">Change%</li>
+					<li class="divider-vertical"></li>
+					<li class="text-center list">Dividend</li>
+					<li class="divider-vertical"></li>
+					<li class="text-center list">Yeild</li>
+					<li class="divider-vertical"></li>
+					<li class="text-center list">Last Update</li>
+				</ul>
+			</div>
+		</div>
+		<div class="span12 results">
+			<div class="navbar span12 repeat"
+				ng-repeat="company in responseArray">
+				<ul class="nav" style="width: 100%;">
+					<li class="text-center list">{{company.t|| "&nbsp"}}</li>
+					<li class="divider-vertical"></li>
+					<li class="text-center list">{{company.e|| "&nbsp"}}</li>
+					<li class="divider-vertical"></li>
+					<li class="text-center list">{{company.l|| "&nbsp"}}</li>
+					<li class="divider-vertical"></li>
+					<li class="text-center list">{{company.c|| "&nbsp"}}</li>
+					<li class="divider-vertical"></li>
+					<li class="text-center list">{{company.cp || "&nbsp"}}</li>
+					<li class="divider-vertical"></li>
+					<li class="text-center list">{{company.div || "&nbsp"}}</li>
+					<li class="divider-vertical"></li>
+					<li class="text-center list">{{company.yld || "&nbsp"}}</li>
+					<li class="divider-vertical"></li>
+					<li class="text-center list"  style="width: 15%;">{{company.lt || "&nbsp"}}</li>
+				</ul>
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>
