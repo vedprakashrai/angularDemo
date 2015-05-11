@@ -145,3 +145,40 @@ function gridCtrl(scope,rootScope,$location,$window,$routeParams, $timeout,DBTab
 
 
 gridCtrl.$inject = [ '$scope', '$rootScope','$location','$window', '$routeParams', '$timeout','DBTableService','$q','ErrorMsgSvc'];
+
+
+
+app.factory('TableDefService', ['$http','$q', '$rootScope', function($http,$q,$rootScope) {
+    function getTableDef(tableName,userId){
+    	 		var deferred = $q.defer();
+				var promise = $http({ method: 'GET', url:$rootScope.APIServer + "services/ui/tables/" + tableName})
+				.success(function(data) {
+			       // deferred.resolve(data);
+					deferred.resolve(undefined);
+			     })
+			     .error(function(data) {
+			         deferred.resolve(undefined);
+			     });
+				return deferred.promise;
+			}
+	   
+	return {
+			getTableDef:getTableDef
+			};
+	}]);
+	
+	     access : access.anon
+        }).when('/transactions', {
+            templateUrl : 'views/transactions.html',
+            controller : TradeTablesCtrl,
+            resolve:{
+            	
+            	blockTableConfig:function(TableDefService){
+            	   return TableDefService.getTableDef('blockTable');
+            	   
+            	},
+            	accTableConfig:function(TableDefService){
+            	   return TableDefService.getTableDef('accTable');
+            	   
+            	}
+            },
